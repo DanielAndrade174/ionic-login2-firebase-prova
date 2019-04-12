@@ -1,0 +1,38 @@
+<ion-header>
+
+  <ion-navbar>
+      <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+      </button>
+    <ion-title>Lista de Produtos</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <button ion-button full (click)="novoProduto()">Novo Produto</button>
+
+  <ion-card *ngFor="let produto of listaDeProdutos">
+
+    <ion-card-header>
+     {{produto?.nomeProduto}}
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-icon name="call"></ion-icon> {{produto?.preco}} 
+      <ion-icon name="call"></ion-icon> {{produto?.categoria}}
+      <ion-icon name="call"></ion-icon> {{produto?.descricao}}
+
+      <button (click)="remove(produto)">REMOVE</button>
+
+      <button (click)="atualiza(produto)">ATUALIZAR</button>
+
+</ion-card-content>
+    
+
+  </ion-card>
+
+</ion-content>
+

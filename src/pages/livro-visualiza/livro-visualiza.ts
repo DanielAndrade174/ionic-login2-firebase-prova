@@ -2,19 +2,19 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import firebase from 'firebase';
-import { Cliente } from '../../model/cliente';
+import { Livro } from '../../model/livro';
 
 @IonicPage()
 @Component({
-  selector: 'page-cliente-visualiza',
-  templateUrl: 'cliente-visualiza.html',
+  selector: 'page-livro-visualiza',
+  templateUrl: 'livro-visualiza.html',
 })
-export class ClienteVisualizaPage {
+export class LivroVisualizaPage {
 
   formGroup : FormGroup;
   firestore = firebase.firestore();
   settings = {timestampsInSnapshots: true};
-  cliente = new Cliente();
+  livro = new Livro();
 
   imagem : string = "";
 
@@ -24,12 +24,13 @@ export class ClienteVisualizaPage {
 
       this.firestore.settings(this.settings);
       
-      this.cliente = this.navParams.get('cliente');
+      this.livro = this.navParams.get('livro');
 
       this.formGroup = this.formBuilder.group({
-        nome : [this.cliente.nome],
-        telefone : [this.cliente.telefone],
-        email : [this.cliente.email],
+        titulo : [this.livro.titulo],
+        autor : [this.livro.autor],
+        preco : [this.livro.preco],
+        resumo : [this.livro.resumo]
       })
   }
 
@@ -38,11 +39,11 @@ export class ClienteVisualizaPage {
   }
 
   atualizar(){
-    let ref = this.firestore.collection('cliente')
-    ref.doc(this.cliente.id).set(this.formGroup.value)
+    let ref = this.firestore.collection('livro')
+    ref.doc(this.livro.id).set(this.formGroup.value)
       .then(() =>{
         console.log('Atualizado com sucesso');
-        this.navCtrl.push('InicioPage')
+        this.navCtrl.push('ListaLivroPage')
       }).catch(()=>{
         console.log('Erro ao Atualizar');
       })
@@ -51,19 +52,22 @@ export class ClienteVisualizaPage {
     let imagem = event.srcElement.files[0];
     //console.log(imagem.name);
     let ref = firebase.storage().ref()
-                  .child(`clientes/${this.cliente.id}.jpg`);
+                  .child(`imagens/${this.livro.id}.jpg`);
   
     ref.put(imagem).then(url=>{
       console.log("Enviado com sucesso!");
+      this.downloadFoto();
     })
   }
 
   downloadFoto(){
     let ref = firebase.storage().ref()
-    .child(`clientes/${this.cliente.id}.jpg`);
+    .child(`imagens/${this.livro.id}.jpg`);
 
     ref.getDownloadURL().then( url=>{
       this.imagem = url;
+    }).catch(e=>{
+
     })
   }
 }

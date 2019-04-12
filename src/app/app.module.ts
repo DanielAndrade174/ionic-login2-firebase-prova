@@ -11,6 +11,9 @@ import { firebaseConfig } from '../config/firebase.config';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { ClienteService } from '../service/cliente.service';
+import { ProdutoService } from '../service/produto.service';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { LivroService } from '../service/livro.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { ClienteService } from '../service/cliente.service';
     StatusBar,
     SplashScreen,
     AngularFireAuth, // Serviço de Autenticação (Authentication)
+    AngularFireStorage,
     ClienteService,
+    ProdutoService,
+    LivroService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

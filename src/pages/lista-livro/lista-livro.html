@@ -1,0 +1,37 @@
+<ion-header>
+
+  <ion-navbar>
+      <button ion-button menuToggle>
+          <ion-icon name="menu"></ion-icon>
+      </button>
+    <ion-title>Lista de Livros</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <button ion-button full (click)="novoLivro()">Novo Livro</button>
+
+  <ion-card *ngFor="let livro of listaDeLivros">
+
+    <ion-card-header>
+     {{livro?.titulo}}
+    </ion-card-header>
+  
+    <ion-card-content>
+      <ion-icon name="call"></ion-icon> {{livro?.autor}} 
+      <ion-icon name="call"></ion-icon> {{livro?.preco}}
+      <ion-icon name="call"></ion-icon> {{livro?.resumo}}
+
+      <button (click)="remove(livro)">REMOVE</button>
+
+      <button (click)="atualiza(livro)">ATUALIZAR</button>
+
+</ion-card-content>
+    
+
+  </ion-card>
+
+</ion-content>

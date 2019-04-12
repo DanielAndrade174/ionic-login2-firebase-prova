@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, MenuController } from 'ionic-angular';
-import { ClienteService } from '../../service/cliente.service';
-import { Cliente } from '../../model/cliente';
+import { LivroService } from '../../service/livro.service';
+import { Livro } from '../../model/livro';
 import firebase from 'firebase';
 
 @IonicPage()
 @Component({
-  selector: 'page-inicio',
-  templateUrl: 'inicio.html',
+  selector: 'page-lista-livro',
+  templateUrl: 'lista-livro.html',
 })
-export class InicioPage {
+export class ListaLivroPage {
 
-  listaDeClientes : Cliente[] = [];//<--
+  listaDeLivros : Livro[] = [];//<--
   firestore = firebase.firestore();// Inicio um instancia do banco
   settings = {timestampsInSnapshots: true};//<--
 
@@ -30,35 +30,35 @@ export class InicioPage {
 
   getList() {
 
-    var ref = firebase.firestore().collection("cliente");
+    var ref = firebase.firestore().collection("livro");
     ref.get().then(query => {
         query.forEach(doc => {
-            let c = new Cliente();
+            let c = new Livro();
             c.setDados(doc.data());
             c.id = doc.id;
-            this.listaDeClientes.push(c);
+            this.listaDeLivros.push(c);
         });
     });
 
   }
 
-  novoCliente(){
-    this.navCtrl.push('NovoClientePage');
+  novoLivro(){
+    this.navCtrl.push('NovoLivroPage');
   }
 
-  remove(obj : Cliente){
-    var ref = firebase.firestore().collection("cliente");
+  remove(obj : Livro){
+    var ref = firebase.firestore().collection("livro");
     ref.doc(obj.id).delete()
       .then(()=>{
-        this.listaDeClientes = [];
+        this.listaDeLivros = [];
         this.getList();
       }).catch(()=>{
         console.log('Erro ao atualizar');
       })
   }
 
-  atualiza(obj : Cliente){
-    this.navCtrl.push('ClienteVisualizaPage',{'cliente' : obj})
+  atualiza(obj : Livro){
+    this.navCtrl.push('LivroVisualizaPage',{'livro' : obj})
   }
 
 }
